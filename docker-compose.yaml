@@ -26,17 +26,51 @@ services:
         depends_on:
             - elasticsearch
 
-    postgres:
-        image: postgres:latest
-        container_name: postgres
-        environment:
-            POSTGRES_DB: order-keeperhub
-            POSTGRES_USER: myuser
-            POSTGRES_PASSWORD: mypassword
+    redis:
+        image: redis:latest
         ports:
-            - '4040:5432'
+            - '6379:6379'
         restart: always
-
+    
+    go-service-cronjob:
+        image: lindermand/go-order-cronjob-service:latest
+        container_name: go-cronjob
+        environment:
+            DB_HOST: 82.112.231.165
+            DB_PORT: 5432
+            DB_USER: keeperzoo
+            DB_PASSWORD: zookeeperx222
+            DB_NAME: order_keeper
+            RABBITMQ_URL: amqp://keeper.iaaaiksu:k@@per.1aaa1ksu@62.72.30.12:5672
+        restart: always
+        
+    go-service-tx:
+        image: lindermand/go-order-consumer-tx-service:latest
+        container_name: go-order-tx
+        environment:
+            DB_HOST: 82.112.231.165
+            DB_PORT: 5432
+            DB_USER: keeperzoo
+            DB_PASSWORD: zookeeperx222
+            DB_NAME: order_keeper
+            RABBITMQ_URL: amqp://keeper.iaaaiksu:k@@per.1aaa1ksu@62.72.30.12:5672
+        restart: always
+    
+    prediction-service:
+        container_name: prediction-service
+        image: lindermand/predict-service:1.9
+        command: python main.py
+        environment:
+            MONGO_URL: mongodb://hubKeeperAdmin:secure0984672855@82.112.231.165:40025/keeperhub?authSource=admin
+            HOST_REDIS: localhost
+            PORT_REDIS: 6379
+            PORT: 50057
+            API_KEY: ZIIJYaRgR9WyJaKxq7zVehOtkfomjyX29NwNLWLlBgE3ikw5jtkMxVQD0IgewUxQ
+            SECRET_KEY: 7JmVNUuzOSyjzDnzGsewBIszScuj47sf1w7MRNDUaRj8pE49gAX4fsgP9RlDCi6S
+        ports:
+            - 50057:50057    
+        restart: always
+    
     rabbitmq:
         image: rabbitmq:management-alpine
         environment:
@@ -46,60 +80,4 @@ services:
             - '15672:15672'
             - '5672:5672'
         restart: always
-
-    redis:
-        image: redis:latest
-        ports:
-            - '6379:6379'
-        restart: always
-    
-    mongo:
-        image: mongo
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
-        ports:
-            - '27017:27017'
-    
-    go-service-cronjob:
-        image: taotoxicboy/go-order-cronjob-service:latest
-        container_name: go-cronjob
-        environment:
-            DB_HOST: postgres
-            DB_PORT: 5432
-            DB_USER: myuser
-            DB_PASSWORD: mypassword
-            DB_NAME: order-keeperhub
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        restart: always
-        
-    go-service-tx:
-        image: taotoxicboy/go-order-consumer-tx-service:latest
-        container_name: go-order-tx
-        environment:
-            DB_HOST: postgres
-            DB_PORT: 5432
-            DB_USER: myuser
-            DB_PASSWORD: mypassword
-            DB_NAME: order-keeperhub
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        restart: always
-    
-    prediction-service:
-        container_name: prediction-service
-        image: lindermand/predict-service:1.8
-        command: python main.py
-        environment:
-            MONGO_URL: mongodb://root:example@localhost:27017/keeperhub?authSource=admin
-            HOST_REDIS: localhost
-            PORT_REDIS: 6379
-            PORT: 50057
-            API_KEY: ZIIJYaRgR9WyJaKxq7zVehOtkfomjyX29NwNLWLlBgE3ikw5jtkMxVQD0IgewUxQ
-            SECRET_KEY: 7JmVNUuzOSyjzDnzGsewBIszScuj47sf1w7MRNDUaRj8pE49gAX4fsgP9RlDCi6S
-        ports:
-            - 50057:50057    
-        restart: always
-        depends_on:
-            - mongo
             

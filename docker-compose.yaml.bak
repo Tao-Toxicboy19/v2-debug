@@ -114,7 +114,7 @@ services:
   #     context: .
   #     dockerfile: ./apps/amqp/Dockerfile
   #   environment:
-  #     RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
+  #     RABBIT_MQ_URL: amqp://keeper.iaaaiksu:k@@per.1aaa1ksu@62.72.30.12:5672
   #     MAIL_SERVICE_URL: http://mail-service:5001
   #   depends_on:
   #     - postgres
@@ -131,7 +131,7 @@ services:
   #     AT_SECRET: AFA9C871D7C6ACD3D9DA62D47DDA5
   #     RT_SECRET: 3A21D1D8DF367F68D4199CD2DE3B5
   #     REDIS_URL: redis
-  #     RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
+  #     RABBIT_MQ_URL: amqp://keeper.iaaaiksu:k@@per.1aaa1ksu@62.72.30.12:5672
   #     GRPC_URL: localhost:5002
   #   depends_on:
   #     - postgres

@@ -16,6 +16,7 @@ export class OrdersService {
     ) {}
 
     async createOrder(dto: OrderDto): Promise<string> {
+        console.log(dto)
         return new Promise((resolve, reject) => {
             this.client.send<string>('create_order', dto).subscribe({
                 next: (response) => resolve(response),

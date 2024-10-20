@@ -1987,6 +1987,7 @@ let OrdersService = class OrdersService {
         this.client = client;
     }
     async createOrder(dto) {
+        console.log(dto);
         return new Promise((resolve, reject) => {
             this.client.send('create_order', dto).subscribe({
                 next: (response) => resolve(response),
