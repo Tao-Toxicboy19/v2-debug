@@ -101,7 +101,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: 22
           script: |
-            cd /root/keeperhub
+            cd /root/keeper-production
             docker compose down
             docker rmi -f $(docker images -q)
             docker compose up -d
