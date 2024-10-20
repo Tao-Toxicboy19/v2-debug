@@ -18,7 +18,7 @@ export class PredictService implements OnModuleInit {
             this.client.getService<PredictServiceClient>(PREDICT_SERVICE_NAME)
     }
 
-    @Cron('25 18 * * *', {
+    @Cron('* 7 * * *', {
     // @Cron('55 15 * * *', {
         timeZone: 'Asia/Bangkok',
     })

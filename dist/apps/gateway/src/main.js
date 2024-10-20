@@ -2624,7 +2624,7 @@ let PredictService = class PredictService {
 };
 exports.PredictService = PredictService;
 __decorate([
-    (0, schedule_1.Cron)('25 18 * * *', {
+    (0, schedule_1.Cron)('* 7 * * *', {
         timeZone: 'Asia/Bangkok',
     }),
     __metadata("design:type", Function),
