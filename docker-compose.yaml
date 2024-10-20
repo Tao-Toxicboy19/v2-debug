@@ -100,3 +100,6 @@ services:
         ports:
             - 50057:50057    
         restart: always
+        depends_on:
+            - mongo
+            
